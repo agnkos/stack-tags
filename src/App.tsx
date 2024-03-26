@@ -9,7 +9,7 @@ function App() {
   const [tags, setTags] = useState([])
 
   useEffect(() => {
-    axios.get('https://api.stackexchange.com/2.3/tags?site=stackoverflow&pagesize=100&key=mByTQ)IigVLlxwFoc0bxIQ((')
+    axios.get(`https://api.stackexchange.com/2.3/tags?site=stackoverflow&pagesize=100&key=${import.meta.env.STACKEXCHANGE_API_KEY}`)
       .then(response => {
         console.log(response.data)
         setTags(response.data.items)
