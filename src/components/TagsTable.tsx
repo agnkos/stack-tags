@@ -6,9 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { TablePagination } from '@mui/material';
+import { Box, Stack, TablePagination } from '@mui/material';
 import { indigo, grey } from '@mui/material/colors'
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import SortElement from './SortElement';
 
 function createData(name: string, count: number) {
     return { name, count };
@@ -32,7 +33,8 @@ const StyledTableCell = styled(TableCell)({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: indigo[300],
         color: grey['A100'],
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        // display: 'flex',
     },
 })
 
@@ -45,6 +47,8 @@ const StyledTableRow = styled(TableRow)({
 const TagsTable = ({ tags }: Props) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [order, setOrder] = useState('desc');
+    const [orderBy, setOrderBy] = useState('count');
 
     const rows = tags.map((el: Tag) => createData(el.name, el.count))
 
@@ -57,7 +61,32 @@ const TagsTable = ({ tags }: Props) => {
         setPage(0);
     };
 
-    const visibleRows = useMemo(() => rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage,), [page, rowsPerPage, rows])
+    const sortedRows = useMemo(() => {
+        const sortedArray = [...rows];
+
+        if (orderBy === 'name') {
+            sortedArray.sort((a, b) =>
+                order === 'asc'
+                    ? a.name.localeCompare(b.name)
+                    : b.name.localeCompare(a.name)
+            );
+        } else if (orderBy === 'count') {
+            sortedArray.sort((a, b) =>
+                order === 'asc'
+                    ? a.count - b.count
+                    : b.count - a.count
+            );
+        }
+
+        return sortedArray;
+    }, [orderBy, order, rows]);
+
+    const visibleRows = useMemo(() => sortedRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage,), [page, rowsPerPage, sortedRows])
+
+    useEffect(() => {
+        console.log('order', order)
+        console.log('order by', orderBy)
+    }, [order, orderBy])
 
     return (
         <TableContainer component={Paper}>
@@ -74,8 +103,18 @@ const TagsTable = ({ tags }: Props) => {
             <Table>
                 <TableHead >
                     <TableRow >
-                        <StyledTableCell>Tag Name</StyledTableCell>
-                        <StyledTableCell>Number of posts</StyledTableCell>
+                        <StyledTableCell >
+                            <Stack direction='row' justifyContent='space-between' alignItems='center'>
+                                <Box>Tag Name</Box>
+                                <SortElement orderBy='name' setOrderBy={setOrderBy} setOrder={setOrder} />
+                            </Stack>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                            <Stack direction='row' justifyContent='space-between' alignItems='center'>
+                                <Box>Number of posts</Box>
+                                <SortElement orderBy='count' setOrderBy={setOrderBy} setOrder={setOrder} />
+                            </Stack>
+                        </StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
