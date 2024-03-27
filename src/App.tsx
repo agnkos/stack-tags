@@ -6,17 +6,22 @@ import axios from "axios"
 import TagsTable from "./components/TagsTable"
 import LoadingElement from './components/LoadingElement'
 import ErrorElement from "./components/ErrorElement"
+import { Construction } from "@mui/icons-material"
 
 function App() {
 
   const [tags, setTags] = useState([])
+  const [sort, setSort] = useState('popular')
+  const [order, setOrder] = useState('desc')
+  const [page, setPage] = useState(1)
+  const [pagesize, setPagesize] = useState(20)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
   useEffect(() => {
     setError(false)
     setLoading(true)
-    axios.get(`https://api.stackexchange.com/2.3/tags?site=stackoverflow&pagesize=100&key=${import.meta.env.VITE_STACKEXCHANGE_API_KEY}`)
+    axios.get(`https://api.stackexchange.com/2.3/tags?site=stackoverflow&pagesize=${pagesize}&page=${page}&order=${order}&sort=${sort}&key=${import.meta.env.VITE_STACKEXCHANGE_API_KEY}`)
       .then(response => {
         console.log(response.data)
         setTags(response.data.items)
@@ -27,11 +32,12 @@ function App() {
         setLoading(false)
         setError(true)
       })
-  }, [])
+  }, [order, page, pagesize, sort])
 
   useEffect(() => {
     console.log('tags', tags)
-  }, [tags])
+    console.log('pagesize', pagesize)
+  }, [tags, pagesize])
 
   return (
     <Box p={4}>
@@ -39,7 +45,7 @@ function App() {
         Tags App
       </Typography>
       {loading && <LoadingElement />}
-      <TagsTable tags={tags} />
+      <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} setPagesize={setPagesize} />
       {error && <ErrorElement />}
     </Box>
   )

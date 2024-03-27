@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
-import { Box, Stack, TablePagination, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TableCell } from '@mui/material';
+import { Box, Stack, TablePagination, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TableCell, Pagination, OutlinedInput, Typography, TextField, Button } from '@mui/material';
 import { indigo, grey } from '@mui/material/colors'
 import { useEffect, useMemo, useState } from 'react';
 import SortElement from './SortElement';
@@ -25,92 +25,67 @@ const StyledTableRow = styled(TableRow)({
 })
 
 type Props = {
-    tags: TagArray
+    tags: TagArray,
+    setOrder: (arg: string) => void,
+    setSort: (arg: string) => void,
+    setPagesize: (arg: number) => void
 }
 
-const TagsTable = ({ tags }: Props) => {
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [order, setOrder] = useState('desc');
-    const [orderBy, setOrderBy] = useState('count');
-
+const TagsTable = ({ tags, setOrder, setSort, setPagesize}: Props) => {
+    
     const rows = tags.map((el: Tag) => createData(el.name, el.count))
 
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    const sortedRows = useMemo(() => {
-        const sortedArray = [...rows];
-
-        if (orderBy === 'name') {
-            sortedArray.sort((a, b) =>
-                order === 'asc'
-                    ? a.name.localeCompare(b.name)
-                    : b.name.localeCompare(a.name)
-            );
-        } else if (orderBy === 'count') {
-            sortedArray.sort((a, b) =>
-                order === 'asc'
-                    ? a.count - b.count
-                    : b.count - a.count
-            );
-        }
-
-        return sortedArray;
-    }, [orderBy, order, rows]);
-
-    const visibleRows = useMemo(() => sortedRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage,), [page, rowsPerPage, sortedRows])
-
-    useEffect(() => {
-        console.log('order', order)
-        console.log('order by', orderBy)
-    }, [order, orderBy])
-
     return (
-        <TableContainer component={Paper}>
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 15, 20, 25]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                sx={{ backgroundColor: grey[100] }}
-            />
-            <Table>
-                <TableHead >
-                    <TableRow >
-                        <StyledTableCell >
-                            <Stack direction='row' justifyContent='space-between' alignItems='center'>
-                                <Box>Tag Name</Box>
-                                <SortElement orderBy='name' setOrderBy={setOrderBy} setOrder={setOrder} />
-                            </Stack>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                            <Stack direction='row' justifyContent='space-between' alignItems='center'>
-                                <Box>Number of posts</Box>
-                                <SortElement orderBy='count' setOrderBy={setOrderBy} setOrder={setOrder} />
-                            </Stack>
-                        </StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {visibleRows.map((row) => (
-                        <StyledTableRow key={row.name}>
-                            <TableCell sx={{ width: '50%' }}>{row.name}</TableCell>
-                            <TableCell sx={{ width: '50%' }}>{row.count}</TableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            <Stack direction='row' alignItems='center' gap={2} sx={{ marginBottom: "1rem" }}>
+                {/* <Typography>Results for page</Typography>
+                <OutlinedInput type="number" /> */}
+                <TextField type="number" id="outlined-number" label="Results for page" InputLabelProps={{
+                    shrink: true,
+                }}
+                    InputProps={{
+                        inputProps: {
+                            min: 0
+                        }
+                    }}
+                    sx={{ width: 200 }} defaultValue={10}
+                    onChange={(event) => {
+                        console.log(event.target.value)
+                        if (typeof (event.target.value) === 'number' && event.target.value > 0) setPagesize(event.target.value)
+                    }}
+                />
+                <Button>Set pages</Button>
+            </Stack>
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead >
+                        <TableRow >
+                            <StyledTableCell >
+                                <Stack direction='row' justifyContent='space-between' alignItems='center'>
+                                    <Box>Tag Name</Box>
+                                    <SortElement sortBy='name' setOrder={setOrder} setSort={setSort} />
+                                </Stack>
+                            </StyledTableCell>
+                            <StyledTableCell>
+                                <Stack direction='row' justifyContent='space-between' alignItems='center'>
+                                    <Box>Number of posts</Box>
+                                    <SortElement sortBy='popular' setOrder={setOrder} setSort={setSort} />
+                                </Stack>
+                            </StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => (
+                            <StyledTableRow key={row.name}>
+                                <TableCell sx={{ width: '50%' }}>{row.name}</TableCell>
+                                <TableCell sx={{ width: '50%' }}>{row.count}</TableCell>
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Pagination />
+        </>
     )
 }
 export default TagsTable
