@@ -8,14 +8,17 @@ import LoadingElement from './components/LoadingElement'
 import ErrorElement from "./components/ErrorElement"
 
 function App() {
-
   const [tags, setTags] = useState([])
+  // const [totalTags, setTotalTags] = useState()
+  const [totalPages, setTotalPages] = useState<number>()
   const [sort, setSort] = useState('popular')
   const [order, setOrder] = useState('desc')
   const [page, setPage] = useState(1)
   const [pagesize, setPagesize] = useState(20)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
+
+  // const totalPages = Math.ceil(totalTags / pagesize)
 
   useEffect(() => {
     setError(false)
@@ -34,6 +37,23 @@ function App() {
   }, [order, page, pagesize, sort])
 
   useEffect(() => {
+    setError(false)
+    setLoading(true)
+    axios.get(`https://api.stackexchange.com/2.3/tags?site=stackoverflow&filter=total&key=${import.meta.env.VITE_STACKEXCHANGE_API_KEY}`)
+      .then(response => {
+        console.log('total', response.data)
+        // setTotalTags(response.data.total)
+        if (response.data.total !== undefined) setTotalPages(Math.ceil(response.data.total / pagesize))
+        setLoading(false)
+      })
+      .catch(error => {
+        console.log(error)
+        setLoading(false)
+        setError(true)
+      })
+  }, [pagesize])
+
+  useEffect(() => {
     console.log('tags', tags)
     console.log('pagesize', pagesize)
   }, [tags, pagesize])
@@ -44,7 +64,7 @@ function App() {
         Tags App
       </Typography>
       {loading && <LoadingElement />}
-      <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} setPagesize={setPagesize} />
+      <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} setPagesize={setPagesize} totalPages={totalPages} />
       {error && <ErrorElement />}
     </Box>
   )

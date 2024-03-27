@@ -24,16 +24,28 @@ const StyledTableRow = styled(TableRow)({
     }
 })
 
+const StyledPagination = styled(Pagination)({
+    marginTop: "1rem",
+    "& .MuiPaginationItem-root:hover": {
+        backgroundColor: indigo[500],
+    },
+    "& .Mui-selected": {
+        backgroundColor: indigo[300],
+    }
+})
+
 type Props = {
     tags: TagArray,
+    totalPages: number | undefined,
     setOrder: (arg: string) => void,
     setSort: (arg: string) => void,
     setPagesize: (arg: number) => void
 }
 
-const TagsTable = ({ tags, setOrder, setSort, setPagesize }: Props) => {
+const TagsTable = ({ tags, setOrder, setSort, setPagesize, totalPages }: Props) => {
     const [resultsNumber, setResultsNumber] = useState(10)
     const [inputError, setInputError] = useState('')
+
     const rows = tags.map((el: Tag) => createData(el.name, el.count))
 
     const handleSetPagesize = () => {
@@ -97,7 +109,7 @@ const TagsTable = ({ tags, setOrder, setSort, setPagesize }: Props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Pagination />
+            <StyledPagination count={totalPages} sx={{ color: indigo[500] }} />
         </>
     )
 }
