@@ -1,32 +1,13 @@
 import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Box, Stack, TablePagination } from '@mui/material';
+import { tableCellClasses } from '@mui/material/TableCell';
+import { Box, Stack, TablePagination, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TableCell } from '@mui/material';
 import { indigo, grey } from '@mui/material/colors'
 import { useEffect, useMemo, useState } from 'react';
 import SortElement from './SortElement';
+import { Tag, TagArray } from '../types'
 
 function createData(name: string, count: number) {
     return { name, count };
-}
-
-type Tag = {
-    count: number,
-    has_synonyms: boolean,
-    is_moderator_only: boolean,
-    is_required: boolean,
-    name: string
-}
-
-type TagArray = Tag[]
-
-type Props = {
-    tags: TagArray
 }
 
 const StyledTableCell = styled(TableCell)({
@@ -34,7 +15,6 @@ const StyledTableCell = styled(TableCell)({
         backgroundColor: indigo[300],
         color: grey['A100'],
         fontWeight: 'bold',
-        // display: 'flex',
     },
 })
 
@@ -43,6 +23,10 @@ const StyledTableRow = styled(TableRow)({
         backgroundColor: indigo[50]
     }
 })
+
+type Props = {
+    tags: TagArray
+}
 
 const TagsTable = ({ tags }: Props) => {
     const [page, setPage] = useState(0);
@@ -120,8 +104,8 @@ const TagsTable = ({ tags }: Props) => {
                 <TableBody>
                     {visibleRows.map((row) => (
                         <StyledTableRow key={row.name}>
-                            <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.count}</TableCell>
+                            <TableCell sx={{ width: '50%' }}>{row.name}</TableCell>
+                            <TableCell sx={{ width: '50%' }}>{row.count}</TableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>
