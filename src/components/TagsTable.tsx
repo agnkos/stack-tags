@@ -1,8 +1,8 @@
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
-import { Box, Stack, TablePagination, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TableCell, Pagination, OutlinedInput, Typography, TextField, Button } from '@mui/material';
+import { Box, Stack, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TableCell, Pagination, Typography, TextField, Button } from '@mui/material';
 import { indigo, grey } from '@mui/material/colors'
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SortElement from './SortElement';
 import { Tag, TagArray } from '../types'
 
@@ -31,30 +31,43 @@ type Props = {
     setPagesize: (arg: number) => void
 }
 
-const TagsTable = ({ tags, setOrder, setSort, setPagesize}: Props) => {
-    
+const TagsTable = ({ tags, setOrder, setSort, setPagesize }: Props) => {
+    const [resultsNumber, setResultsNumber] = useState(10)
+    const [inputError, setInputError] = useState('')
     const rows = tags.map((el: Tag) => createData(el.name, el.count))
+
+    const handleSetPagesize = () => {
+        setInputError('')
+        if (resultsNumber > 0) setPagesize(resultsNumber)
+        else setInputError('Results number must be greater than 0')
+    }
+
+    useEffect(() => {
+        console.log('results number', resultsNumber)
+    }, [resultsNumber])
 
     return (
         <>
-            <Stack direction='row' alignItems='center' gap={2} sx={{ marginBottom: "1rem" }}>
-                {/* <Typography>Results for page</Typography>
-                <OutlinedInput type="number" /> */}
-                <TextField type="number" id="outlined-number" label="Results for page" InputLabelProps={{
-                    shrink: true,
-                }}
-                    InputProps={{
-                        inputProps: {
-                            min: 0
-                        }
+            <Stack sx={{ marginBottom: "1rem" }}>
+                <Stack direction='row' alignItems='center' gap={2} sx={{ marginBottom: ".25rem" }}>
+                    <TextField type="number" id="outlined-number" label="Results for page" InputLabelProps={{
+                        shrink: true,
                     }}
-                    sx={{ width: 200 }} defaultValue={10}
-                    onChange={(event) => {
-                        console.log(event.target.value)
-                        if (typeof (event.target.value) === 'number' && event.target.value > 0) setPagesize(event.target.value)
-                    }}
-                />
-                <Button>Set pages</Button>
+                        InputProps={{
+                            inputProps: {
+                                min: 1
+                            }
+                        }}
+                        sx={{ width: 200 }} defaultValue={10}
+                        onChange={(event) => {
+                            console.log(event.target.value)
+                            console.log('number?', typeof (event.target.value))
+                            setResultsNumber(Number(event.target.value))
+                        }}
+                    />
+                    <Button onClick={handleSetPagesize}>Set pages</Button>
+                </Stack>
+                {<Typography sx={{ color: 'error.main' }}>{inputError}</Typography>}
             </Stack>
             <TableContainer component={Paper}>
                 <Table>

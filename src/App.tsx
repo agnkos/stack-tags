@@ -6,7 +6,6 @@ import axios from "axios"
 import TagsTable from "./components/TagsTable"
 import LoadingElement from './components/LoadingElement'
 import ErrorElement from "./components/ErrorElement"
-import { Construction } from "@mui/icons-material"
 
 function App() {
 
