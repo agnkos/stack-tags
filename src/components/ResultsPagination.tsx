@@ -2,6 +2,7 @@ import { ChangeEvent } from 'react';
 import { styled } from '@mui/material/styles';
 import { Pagination } from '@mui/material';
 import { indigo } from '@mui/material/colors';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const StyledPagination = styled(Pagination)(({ theme }) => ({
     marginTop: "1rem",
@@ -28,13 +29,18 @@ type Props = {
 }
 
 const ResultsPagination = ({ totalPages, setPage, page }: Props) => {
+    const theme = useTheme()
+    const xs = useMediaQuery(theme.breakpoints.down('sm'))
+    const boundaryCount = xs ? 1 : 2
+    const siblingCount = xs ? 0 : 1
+    const size = xs ? 'small' : 'medium'
 
     const handlePageChange = (event: ChangeEvent<unknown>, value: number) => {
         setPage(value)
     }
 
     return (
-        <StyledPagination count={totalPages} sx={{ color: indigo[500] }} onChange={handlePageChange} page={page} />
+        <StyledPagination count={totalPages} sx={{ color: indigo[500] }} onChange={handlePageChange} page={page} boundaryCount={boundaryCount} siblingCount={siblingCount} size={size} />
     )
 }
 export default ResultsPagination

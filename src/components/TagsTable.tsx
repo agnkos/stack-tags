@@ -9,13 +9,22 @@ function createData(name: string, count: number) {
     return { name, count };
 }
 
-const StyledTableCell = styled(TableCell)({
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: indigo[300],
         color: grey['A100'],
         fontWeight: 'bold',
     },
-})
+    [theme.breakpoints.down("sm")]: {
+        [`&.${tableCellClasses.body}`]: {
+            padding: '.5rem'
+        }
+    },
+    [theme.breakpoints.down("sm")]: {
+        padding: '8px',
+        textAlign: 'center'
+    }
+}))
 
 const StyledTableRow = styled(TableRow)({
     '&:nth-of-type(odd)': {
@@ -40,7 +49,7 @@ const TagsTable = ({ tags, setOrder, setSort, setPage }: Props) => {
                 <Table>
                     <TableHead >
                         <TableRow >
-                            <StyledTableCell >
+                            <StyledTableCell sx={{ p: 1 }}>
                                 <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between' alignItems='center'>
                                     <Box>Tag Name</Box>
                                     <SortElement sortBy='name' setOrder={setOrder} setSort={setSort} setPage={setPage} />
@@ -49,7 +58,7 @@ const TagsTable = ({ tags, setOrder, setSort, setPage }: Props) => {
                             <StyledTableCell>
                                 <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between' alignItems='center'>
                                     <Box>Number of posts</Box>
-                                    <SortElement sortBy='popular' setOrder={setOrder} setSort={setSort} setPage={setPage}/>
+                                    <SortElement sortBy='popular' setOrder={setOrder} setSort={setSort} setPage={setPage} />
                                 </Stack>
                             </StyledTableCell>
                         </TableRow>
