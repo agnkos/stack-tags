@@ -3,8 +3,6 @@ import { tableCellClasses } from '@mui/material/TableCell';
 import { Box, Stack, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TableCell } from '@mui/material';
 import { indigo, grey } from '@mui/material/colors';
 import SortElement from './SortElement';
-import SetResultsElement from './SetResultsElement';
-import ResultsPagination from './ResultsPagination';
 import { Tag, TagArray } from '../types';
 
 function createData(name: string, count: number) {
@@ -27,20 +25,16 @@ const StyledTableRow = styled(TableRow)({
 
 type Props = {
     tags: TagArray,
-    totalPages: number | undefined,
     setOrder: (arg: string) => void,
     setSort: (arg: string) => void,
-    setPagesize: (arg: number) => void,
-    setPage: (arg: number) => void
 }
 
-const TagsTable = ({ tags, setOrder, setSort, setPagesize, totalPages, setPage }: Props) => {
+const TagsTable = ({ tags, setOrder, setSort }: Props) => {
 
     const rows = tags.map((el: Tag) => createData(el.name, el.count))
 
     return (
         <>
-            <SetResultsElement setPagesize={setPagesize} />
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead >
@@ -69,7 +63,6 @@ const TagsTable = ({ tags, setOrder, setSort, setPagesize, totalPages, setPage }
                     </TableBody>
                 </Table>
             </TableContainer>
-            <ResultsPagination totalPages={totalPages} setPage={setPage} />
         </>
     )
 }
