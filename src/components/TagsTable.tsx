@@ -10,15 +10,11 @@ function createData(name: string, count: number) {
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    // padding: '1rem',
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: indigo[300],
         color: grey['A100'],
         fontWeight: 'bold',
-    },
-    [theme.breakpoints.down("sm")]: {
-        [`&.${tableCellClasses.body}`]: {
-            padding: '.5rem'
-        }
     },
     [theme.breakpoints.down("sm")]: {
         padding: '8px',
@@ -50,16 +46,16 @@ const TagsTable = ({ tags, setOrder, setSort, setPage, order, sort }: Props) => 
             <Table>
                 <TableHead >
                     <TableRow >
-                        <StyledTableCell sx={{ p: 1 }}>
+                        <StyledTableCell>
                             <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between' alignItems='center'>
                                 <Box>Tag Name</Box>
-                                <SortElement sortBy='name' setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort}/>
+                                <SortElement sortBy='name' setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
                             </Stack>
                         </StyledTableCell>
                         <StyledTableCell>
                             <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between' alignItems='center'>
                                 <Box>Number of posts</Box>
-                                <SortElement sortBy='popular' setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort}/>
+                                <SortElement sortBy='popular' setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
                             </Stack>
                         </StyledTableCell>
                     </TableRow>
