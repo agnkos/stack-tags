@@ -12,6 +12,9 @@ const StyledPagination = styled(Pagination)({
     },
     "& .Mui-selected": {
         backgroundColor: indigo[200],
+    },
+    "& .Mui-selected:hover": {
+        backgroundColor: indigo[400],
     }
 })
 
