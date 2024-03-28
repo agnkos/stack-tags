@@ -9,13 +9,22 @@ function createData(name: string, count: number) {
     return { name, count };
 }
 
-const StyledTableCell = styled(TableCell)({
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: indigo[300],
         color: grey['A100'],
         fontWeight: 'bold',
     },
-})
+    [theme.breakpoints.down("sm")]: {
+        [`&.${tableCellClasses.body}`]: {
+            padding: '.5rem'
+        }
+    },
+    [theme.breakpoints.down("sm")]: {
+        padding: '8px',
+        textAlign: 'center'
+    }
+}))
 
 const StyledTableRow = styled(TableRow)({
     '&:nth-of-type(odd)': {
@@ -25,45 +34,46 @@ const StyledTableRow = styled(TableRow)({
 
 type Props = {
     tags: TagArray,
+    order: string,
+    sort: string,
     setOrder: (arg: string) => void,
     setSort: (arg: string) => void,
+    setPage: (arg: number) => void
 }
 
-const TagsTable = ({ tags, setOrder, setSort }: Props) => {
+const TagsTable = ({ tags, setOrder, setSort, setPage, order, sort }: Props) => {
 
     const rows = tags.map((el: Tag) => createData(el.name, el.count))
 
     return (
-        <>
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead >
-                        <TableRow >
-                            <StyledTableCell >
-                                <Stack direction='row' justifyContent='space-between' alignItems='center'>
-                                    <Box>Tag Name</Box>
-                                    <SortElement sortBy='name' setOrder={setOrder} setSort={setSort} />
-                                </Stack>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <Stack direction='row' justifyContent='space-between' alignItems='center'>
-                                    <Box>Number of posts</Box>
-                                    <SortElement sortBy='popular' setOrder={setOrder} setSort={setSort} />
-                                </Stack>
-                            </StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <StyledTableRow key={row.name}>
-                                <TableCell sx={{ width: '50%' }}>{row.name}</TableCell>
-                                <TableCell sx={{ width: '50%' }}>{row.count}</TableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </>
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead >
+                    <TableRow >
+                        <StyledTableCell sx={{ p: 1 }}>
+                            <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between' alignItems='center'>
+                                <Box>Tag Name</Box>
+                                <SortElement sortBy='name' setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort}/>
+                            </Stack>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                            <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between' alignItems='center'>
+                                <Box>Number of posts</Box>
+                                <SortElement sortBy='popular' setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort}/>
+                            </Stack>
+                        </StyledTableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {rows.map((row) => (
+                        <StyledTableRow key={row.name}>
+                            <TableCell sx={{ width: '50%' }}>{row.name}</TableCell>
+                            <TableCell sx={{ width: '50%' }}>{row.count}</TableCell>
+                        </StyledTableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }
 export default TagsTable
