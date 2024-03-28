@@ -54,15 +54,15 @@ function App() {
   }, [tags])
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: { xs: 1, sm: 4 } }}>
       <Typography variant="h3" component="h1" sx={{ marginBottom: "1rem", fontWeight: "bold", color: indigo[600] }}>
         Tags App
       </Typography>
       {loading && <LoadingElement />}
-      <SetResultsElement setPagesize={setPagesize} />
-      <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} />
+      <SetResultsElement setPagesize={setPagesize} setPage={setPage}/>
+      <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} setPage={setPage}/>
       {error && <ErrorElement />}
-      <ResultsPagination totalPages={totalPages} setPage={setPage} />
+      <ResultsPagination totalPages={totalPages} setPage={setPage} page={page}/>
     </Box>
   )
 }

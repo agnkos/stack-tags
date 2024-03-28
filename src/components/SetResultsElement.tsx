@@ -3,7 +3,11 @@ import { Stack, outlinedInputClasses, inputLabelClasses, TextField, Button, Typo
 import { styled } from '@mui/material/styles';
 import { indigo } from '@mui/material/colors';
 
-const StyledTextField = styled(TextField)({
+const StyledTextField = styled(TextField)((props) => ({
+    width: '120px',
+    [props.theme.breakpoints.up("sm")]: {
+        width: '200px'
+    },
     [`& .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
         borderColor: indigo[300]
     },
@@ -22,7 +26,7 @@ const StyledTextField = styled(TextField)({
     [`& .${inputLabelClasses.outlined}.${inputLabelClasses.focused}`]: {
         color: indigo[500]
     }
-})
+}))
 
 const StyledButton = styled(Button)({
     backgroundColor: indigo[300],
@@ -31,15 +35,19 @@ const StyledButton = styled(Button)({
 
 type Props = {
     setPagesize: (arg: number) => void,
+    setPage: (arg: number) => void
 }
 
-const SetResultsElement = ({ setPagesize }: Props) => {
+const SetResultsElement = ({ setPagesize, setPage }: Props) => {
     const [resultsNumber, setResultsNumber] = useState(10)
     const [inputError, setInputError] = useState('')
 
     const handleSetPagesize = () => {
         setInputError('')
-        if (resultsNumber > 0) setPagesize(resultsNumber)
+        if (resultsNumber > 0) {
+            setPagesize(resultsNumber)
+            setPage(1)
+        }
         else setInputError('Results number must be greater than 0')
     }
 
@@ -59,7 +67,6 @@ const SetResultsElement = ({ setPagesize }: Props) => {
                             min: 1
                         }
                     }}
-                    sx={{ width: 200, }}
                     defaultValue={10}
                     onChange={(event) => {
                         setResultsNumber(Number(event.target.value))

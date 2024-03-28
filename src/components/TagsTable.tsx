@@ -27,9 +27,10 @@ type Props = {
     tags: TagArray,
     setOrder: (arg: string) => void,
     setSort: (arg: string) => void,
+    setPage: (arg: number) => void
 }
 
-const TagsTable = ({ tags, setOrder, setSort }: Props) => {
+const TagsTable = ({ tags, setOrder, setSort, setPage }: Props) => {
 
     const rows = tags.map((el: Tag) => createData(el.name, el.count))
 
@@ -40,15 +41,15 @@ const TagsTable = ({ tags, setOrder, setSort }: Props) => {
                     <TableHead >
                         <TableRow >
                             <StyledTableCell >
-                                <Stack direction='row' justifyContent='space-between' alignItems='center'>
+                                <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between' alignItems='center'>
                                     <Box>Tag Name</Box>
-                                    <SortElement sortBy='name' setOrder={setOrder} setSort={setSort} />
+                                    <SortElement sortBy='name' setOrder={setOrder} setSort={setSort} setPage={setPage} />
                                 </Stack>
                             </StyledTableCell>
                             <StyledTableCell>
-                                <Stack direction='row' justifyContent='space-between' alignItems='center'>
+                                <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between' alignItems='center'>
                                     <Box>Number of posts</Box>
-                                    <SortElement sortBy='popular' setOrder={setOrder} setSort={setSort} />
+                                    <SortElement sortBy='popular' setOrder={setOrder} setSort={setSort} setPage={setPage}/>
                                 </Stack>
                             </StyledTableCell>
                         </TableRow>

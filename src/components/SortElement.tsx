@@ -7,14 +7,16 @@ import { useEffect } from "react";
 type Props = {
     sortBy: string,
     setSort: (arg: string) => void,
-    setOrder: (arg: string) => void
+    setOrder: (arg: string) => void,
+    setPage: (arg: number) => void
 }
 
-const SortElement = ({ sortBy, setSort, setOrder }: Props) => {
+const SortElement = ({ sortBy, setSort, setOrder, setPage }: Props) => {
 
     const sortData = (sortBy: string, order: string) => {
         setOrder(order)
         setSort(sortBy)
+        setPage(1)
     }
 
     useEffect(() => {
