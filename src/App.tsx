@@ -59,10 +59,11 @@ function App() {
         Tags App
       </Typography>
       {loading && <LoadingElement />}
-      <SetResultsElement setPagesize={setPagesize} setPage={setPage}/>
-      <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort}/>
+      <Typography variant="subtitle2" sx={{marginBottom: ".5rem"}}>Set number of results per page between 1 and 100.</Typography>
+      <SetResultsElement setPagesize={setPagesize} setPage={setPage} />
+      <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
       {error && <ErrorElement />}
-      <ResultsPagination totalPages={totalPages} setPage={setPage} page={page}/>
+      {!error && <ResultsPagination totalPages={totalPages} setPage={setPage} page={page} />}
     </Box>
   )
 }
