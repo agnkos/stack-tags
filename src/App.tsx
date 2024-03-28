@@ -60,7 +60,7 @@ function App() {
       </Typography>
       {loading && <LoadingElement />}
       <SetResultsElement setPagesize={setPagesize} setPage={setPage}/>
-      <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} setPage={setPage}/>
+      <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort}/>
       {error && <ErrorElement />}
       <ResultsPagination totalPages={totalPages} setPage={setPage} page={page}/>
     </Box>
