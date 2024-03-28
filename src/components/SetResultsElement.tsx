@@ -44,11 +44,12 @@ const SetResultsElement = ({ setPagesize, setPage }: Props) => {
 
     const handleSetPagesize = () => {
         setInputError('')
-        if (resultsNumber > 0) {
+        if (resultsNumber > 0 && resultsNumber < 101) {
             setPagesize(resultsNumber)
             setPage(1)
         }
-        else setInputError('Results number must be greater than 0')
+        else if (resultsNumber < 0) setInputError('Results number must be greater than 0')
+        else setInputError('Results number must not be greater than 100')
     }
 
     return (
