@@ -1,5 +1,5 @@
 
-import { Box, Typography } from "@mui/material"
+import { Box, Typography, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import { indigo } from '@mui/material/colors'
 import axios from "axios"
@@ -58,9 +58,11 @@ function App() {
       <Typography variant="h3" component="h1" sx={{ marginBottom: "1rem", fontWeight: "bold", color: indigo[600] }}>
         Tags App
       </Typography>
-      {loading && <LoadingElement />}
-      <Typography variant="subtitle2" sx={{marginBottom: ".5rem"}}>Set number of results per page between 1 and 100.</Typography>
-      <SetResultsElement setPagesize={setPagesize} setPage={setPage} />
+      <Typography variant="subtitle2" sx={{ marginBottom: ".5rem" }}>Set number of results per page between 1 and 100.</Typography>
+      <Stack direction="row" gap={6}>
+        <SetResultsElement setPagesize={setPagesize} setPage={setPage} />
+        {loading && <LoadingElement />}
+      </Stack>
       <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
       {error && <ErrorElement />}
       {!error && <ResultsPagination totalPages={totalPages} setPage={setPage} page={page} />}
