@@ -1,4 +1,3 @@
-
 import { Box, Typography, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import { indigo } from '@mui/material/colors'
@@ -8,50 +7,31 @@ import TagsTable from "./components/TagsTable"
 import LoadingElement from './components/LoadingElement'
 import ErrorElement from "./components/ErrorElement"
 import ResultsPagination from "./components/ResultsPagination"
+import { useQuery, keepPreviousData } from '@tanstack/react-query'
 
 function App() {
-  const [tags, setTags] = useState([])
   const [totalPages, setTotalPages] = useState<number>()
   const [sort, setSort] = useState('popular')
   const [order, setOrder] = useState('desc')
   const [page, setPage] = useState(1)
   const [pagesize, setPagesize] = useState(10)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+
+  const { data: tagsResults, isError: isTagsError, isFetching } = useQuery({
+    queryKey: ['tags', page, pagesize, order, sort],
+    queryFn: () => axios.get(`https://api.stackexchange.com/2.3/tags?site=stackoverflow&pagesize=${pagesize}&page=${page}&order=${order}&sort=${sort}&key=${import.meta.env.VITE_STACKEXCHANGE_API_KEY}`).then(res => res.data.items),
+    placeholderData: keepPreviousData
+  })
+
+  const { data: totalResults, isSuccess: isTotalResultsSuccess, isError: isTotalResultsError } = useQuery({
+    queryKey: ['total'],
+    queryFn: () => axios.get(`https://api.stackexchange.com/2.3/tags?site=stackoverflow&filter=total&key=${import.meta.env.VITE_STACKEXCHANGE_API_KEY}`).then(res => res.data.total)
+  })
 
   useEffect(() => {
-    setError(false)
-    setLoading(true)
-    axios.get(`https://api.stackexchange.com/2.3/tags?site=stackoverflow&pagesize=${pagesize}&page=${page}&order=${order}&sort=${sort}&key=${import.meta.env.VITE_STACKEXCHANGE_API_KEY}`)
-      .then(response => {
-        setTags(response.data.items)
-        setLoading(false)
-      })
-      .catch(error => {
-        console.log(error)
-        setLoading(false)
-        setError(true)
-      })
-  }, [order, page, pagesize, sort])
-
-  useEffect(() => {
-    setError(false)
-    setLoading(true)
-    axios.get(`https://api.stackexchange.com/2.3/tags?site=stackoverflow&filter=total&key=${import.meta.env.VITE_STACKEXCHANGE_API_KEY}`)
-      .then(response => {
-        if (response.data.total !== undefined) setTotalPages(Math.ceil(response.data.total / pagesize))
-        setLoading(false)
-      })
-      .catch(error => {
-        console.log(error)
-        setLoading(false)
-        setError(true)
-      })
-  }, [pagesize])
-
-  useEffect(() => {
-    console.log('tags', tags)
-  }, [tags])
+    if (isTotalResultsSuccess) {
+      setTotalPages(Math.ceil(totalResults / pagesize))
+    }
+  }, [isTotalResultsSuccess, totalResults, pagesize])
 
   return (
     <Box sx={{ p: { xs: 1, sm: 4 } }}>
@@ -61,11 +41,12 @@ function App() {
       <Typography variant="subtitle2" sx={{ marginBottom: ".5rem" }}>Set number of results per page between 1 and 100.</Typography>
       <Stack direction="row" gap={6}>
         <SetResultsElement setPagesize={setPagesize} setPage={setPage} />
-        {loading && <LoadingElement />}
+        {isFetching && <LoadingElement />}
       </Stack>
-      <TagsTable tags={tags} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
-      {error && <ErrorElement />}
-      {!error && <ResultsPagination totalPages={totalPages} setPage={setPage} page={page} />}
+      <TagsTable tags={tagsResults || []} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
+      {(!isFetching && (isTagsError || isTotalResultsError)) && <ErrorElement />}
+      {isTotalResultsSuccess && <ResultsPagination totalPages={totalPages} setPage={setPage} page={page} />}
+
     </Box>
   )
 }
