@@ -7,7 +7,7 @@ import TagsTable from "./components/TagsTable"
 import LoadingElement from './components/LoadingElement'
 import ErrorElement from "./components/ErrorElement"
 import ResultsPagination from "./components/ResultsPagination"
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, keepPreviousData } from '@tanstack/react-query'
 // import { getTags } from './requests'
 
 function App() {
@@ -17,12 +17,13 @@ function App() {
   const [page, setPage] = useState(1)
   const [pagesize, setPagesize] = useState(10)
 
-  const { data: tagsResults, isPending, isSuccess, error } = useQuery({
+  const { data: tagsResults, isPending, error: tagsError, refetch: refetchTags, isLoading } = useQuery({
     queryKey: ['tags', page, pagesize, order, sort],
     queryFn: () => axios.get(`https://api.stackexchange.com/2.3/tags?site=stackoverflow&pagesize=${pagesize}&page=${page}&order=${order}&sort=${sort}&key=${import.meta.env.VITE_STACKEXCHANGE_API_KEY}`).then(res => {
       console.log('response query tags', res)
       return res.data.items
-    })
+    }),
+    placeholderData: keepPreviousData
   })
 
   console.log('tag results', tagsResults)
@@ -42,6 +43,11 @@ function App() {
     }
   }, [isTotalResultsSuccess, totalResults, pagesize])
 
+  // refetchTags - old data is displayed in the table until new data is succesfully fetched (table does not disappear, which takes place when dependencies are added to queryKey)
+  // useEffect(() => {
+  //   refetchTags()
+  // }, [page, pagesize, order, sort])
+
   return (
     <Box sx={{ p: { xs: 1, sm: 4 } }}>
       <Typography variant="h3" component="h1" sx={{ marginBottom: "1rem", fontWeight: "bold", color: indigo[600] }}>
@@ -52,10 +58,11 @@ function App() {
         <SetResultsElement setPagesize={setPagesize} setPage={setPage} />
         {isPending && <LoadingElement />}
       </Stack>
-      {isSuccess && 
-      <TagsTable tags={tagsResults} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
-      }
-      {(error || totalResultsError) && <ErrorElement />}
+      {/* {isSuccess &&
+        <TagsTable tags={tagsResults} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
+      } */}
+      <TagsTable tags={tagsResults || []} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
+      {(tagsError || totalResultsError) && <ErrorElement />}
       {isTotalResultsSuccess && <ResultsPagination totalPages={totalPages} setPage={setPage} page={page} />}
     </Box>
   )
