@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Stack, outlinedInputClasses, inputLabelClasses, TextField, Button, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { indigo } from '@mui/material/colors';
+import { useState } from 'react'
+import { Stack, outlinedInputClasses, inputLabelClasses, TextField, Button, Typography } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import { indigo } from '@mui/material/colors'
 
 const StyledTextField = styled(TextField)((props) => ({
     width: '120px',

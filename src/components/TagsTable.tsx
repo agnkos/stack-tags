@@ -1,9 +1,9 @@
-import { styled } from '@mui/material/styles';
-import { tableCellClasses } from '@mui/material/TableCell';
-import { Box, Stack, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TableCell } from '@mui/material';
-import { indigo, grey } from '@mui/material/colors';
-import SortElement from './SortElement';
-import { Tag, TagArray } from '../types';
+import { styled } from '@mui/material/styles'
+import { tableCellClasses } from '@mui/material/TableCell'
+import { Box, Stack, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TableCell } from '@mui/material'
+import { indigo, grey } from '@mui/material/colors'
+import SortElement from './SortElement'
+import { Tag, TagArray } from '../types'
 
 function createData(name: string, count: number) {
     return { name, count };

@@ -1,8 +1,8 @@
-import { ChangeEvent } from 'react';
-import { styled } from '@mui/material/styles';
-import { Pagination } from '@mui/material';
-import { indigo } from '@mui/material/colors';
-import { useMediaQuery, useTheme } from '@mui/material';
+import { ChangeEvent } from 'react'
+import { styled } from '@mui/material/styles'
+import { Pagination } from '@mui/material'
+import { indigo } from '@mui/material/colors'
+import { useMediaQuery, useTheme } from '@mui/material'
 
 const StyledPagination = styled(Pagination)(({ theme }) => ({
     marginTop: '1rem',

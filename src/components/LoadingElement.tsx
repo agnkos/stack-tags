@@ -1,5 +1,5 @@
 import { Stack, Typography } from '@mui/material'
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress'
 
 const LoadingElement = () => {
     return (
