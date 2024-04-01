@@ -5,19 +5,19 @@ import { indigo } from '@mui/material/colors';
 import { useMediaQuery, useTheme } from '@mui/material';
 
 const StyledPagination = styled(Pagination)(({ theme }) => ({
-    marginTop: "1rem",
-    justifyContent: "center",
+    marginTop: '1rem',
+    justifyContent: 'center',
     display: 'flex',
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
         padding: '5px'
     },
-    "& .MuiPaginationItem-root:hover": {
+    '& .MuiPaginationItem-root:hover': {
         backgroundColor: indigo[400],
     },
-    "& .Mui-selected, MuiPaginationItem-page": {
+    '& .Mui-selected, MuiPaginationItem-page': {
         backgroundColor: indigo[300],
     },
-    "& .Mui-selected:hover": {
+    '& .Mui-selected:hover': {
         backgroundColor: indigo[400],
     }
 }))

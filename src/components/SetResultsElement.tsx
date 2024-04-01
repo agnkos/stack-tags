@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { Stack, outlinedInputClasses, inputLabelClasses, TextField, Button, Typography } from "@mui/material";
+import { useState } from 'react';
+import { Stack, outlinedInputClasses, inputLabelClasses, TextField, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { indigo } from '@mui/material/colors';
 
 const StyledTextField = styled(TextField)((props) => ({
     width: '120px',
-    [props.theme.breakpoints.up("sm")]: {
+    [props.theme.breakpoints.up('sm')]: {
         width: '200px'
     },
     [`& .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
@@ -30,7 +30,7 @@ const StyledTextField = styled(TextField)((props) => ({
 
 const StyledButton = styled(Button)({
     backgroundColor: indigo[300],
-    "&:hover": { backgroundColor: indigo[500] }
+    '&:hover': { backgroundColor: indigo[500] }
 })
 
 type Props = {
@@ -53,13 +53,13 @@ const SetResultsElement = ({ setPagesize, setPage }: Props) => {
     }
 
     return (
-        <Stack sx={{ marginBottom: "1rem" }}>
-            <Stack direction='row' alignItems='center' gap={2} sx={{ marginBottom: ".25rem" }}>
+        <Stack sx={{ marginBottom: '1rem' }}>
+            <Stack direction='row' alignItems='center' gap={2} sx={{ marginBottom: '.25rem' }}>
                 <StyledTextField
-                    type="number"
-                    id="outlined-number"
-                    label="Results per page"
-                    size="small"
+                    type='number'
+                    id='outlined-number'
+                    label='Results per page'
+                    size='small'
                     InputLabelProps={{
                         shrink: true,
                     }}
@@ -73,7 +73,7 @@ const SetResultsElement = ({ setPagesize, setPage }: Props) => {
                         setResultsNumber(Number(event.target.value))
                     }}
                 />
-                <StyledButton variant="contained" onClick={handleSetPagesize}>Set results</StyledButton>
+                <StyledButton variant='contained' onClick={handleSetPagesize}>Set results</StyledButton>
             </Stack>
             {<Typography sx={{ color: 'error.main' }}>{inputError}</Typography>}
         </Stack>

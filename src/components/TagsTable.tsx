@@ -15,7 +15,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         color: grey['A100'],
         fontWeight: 'bold',
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
         padding: '8px',
         textAlign: 'center'
     }

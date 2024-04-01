@@ -1,12 +1,12 @@
-import { Box, Typography, Stack } from "@mui/material"
-import { useEffect, useState } from "react"
+import { Box, Typography, Stack } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { indigo } from '@mui/material/colors'
-import axios from "axios"
-import SetResultsElement from "./components/SetResultsElement"
-import TagsTable from "./components/TagsTable"
+import axios from 'axios'
+import SetResultsElement from './components/SetResultsElement'
+import TagsTable from './components/TagsTable'
 import LoadingElement from './components/LoadingElement'
-import ErrorElement from "./components/ErrorElement"
-import ResultsPagination from "./components/ResultsPagination"
+import ErrorElement from './components/ErrorElement'
+import ResultsPagination from './components/ResultsPagination'
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
 
 function App() {
@@ -35,11 +35,11 @@ function App() {
 
   return (
     <Box sx={{ p: { xs: 1, sm: 4 } }}>
-      <Typography variant="h3" component="h1" sx={{ marginBottom: "1rem", fontWeight: "bold", color: indigo[600] }}>
+      <Typography variant='h3' component='h1' sx={{ marginBottom: '1rem', fontWeight: 'bold', color: indigo[600] }}>
         Tags App
       </Typography>
-      <Typography variant="subtitle2" sx={{ marginBottom: ".5rem" }}>Set number of results per page between 1 and 100.</Typography>
-      <Stack direction="row" gap={6}>
+      <Typography variant='subtitle2' sx={{ marginBottom: '.5rem' }}>Set number of results per page between 1 and 100.</Typography>
+      <Stack direction='row' gap={6}>
         <SetResultsElement setPagesize={setPagesize} setPage={setPage} />
         {isFetching && <LoadingElement />}
       </Stack>
