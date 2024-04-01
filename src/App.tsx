@@ -9,7 +9,6 @@ import ErrorElement from "./components/ErrorElement"
 import ResultsPagination from "./components/ResultsPagination"
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
 
-
 function App() {
   const [totalPages, setTotalPages] = useState<number>()
   const [sort, setSort] = useState('popular')
@@ -47,6 +46,7 @@ function App() {
       <TagsTable tags={tagsResults || []} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
       {(!isFetching && (isTagsError || isTotalResultsError)) && <ErrorElement />}
       {isTotalResultsSuccess && <ResultsPagination totalPages={totalPages} setPage={setPage} page={page} />}
+
     </Box>
   )
 }
