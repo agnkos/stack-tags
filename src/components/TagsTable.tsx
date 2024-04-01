@@ -10,7 +10,6 @@ function createData(name: string, count: number) {
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    // padding: '1rem',
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: indigo[300],
         color: grey['A100'],
