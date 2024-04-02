@@ -7,7 +7,7 @@
 
 Clone the repo:
 
-    git clone https://github.com/agnkos/knit-app.git
+    git clone https://github.com/agnkos/stack-tags.git
 
 Install npm packages:
 
