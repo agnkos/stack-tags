@@ -33,8 +33,6 @@ function App() {
     }
   }, [isTotalResultsSuccess, totalResults, pagesize])
 
-  console.log('tag results', tagsResults)
-
   return (
     <Box sx={{ p: { xs: 1, sm: 4 } }}>
       <Typography variant='h3' component='h1' sx={{ marginBottom: '1rem', fontWeight: 'bold', color: indigo[600] }}>
