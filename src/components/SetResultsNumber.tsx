@@ -38,7 +38,7 @@ type Props = {
     setPage: (arg: number) => void
 }
 
-const SetResultsElement = ({ setPagesize, setPage }: Props) => {
+const SetResultsNumber = ({ setPagesize, setPage }: Props) => {
     const [resultsNumber, setResultsNumber] = useState(10)
     const [inputError, setInputError] = useState('')
 
@@ -79,4 +79,4 @@ const SetResultsElement = ({ setPagesize, setPage }: Props) => {
         </Stack>
     )
 }
-export default SetResultsElement
+export default SetResultsNumber
