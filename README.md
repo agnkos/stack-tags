@@ -11,7 +11,7 @@ Clone the repo:
 
 Install npm packages:
 
-     npm install 
+    npm install 
 
 Or:
 
