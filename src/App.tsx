@@ -2,10 +2,10 @@ import { Box, Typography, Stack } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { indigo } from '@mui/material/colors'
 import axios from 'axios'
-import SetResultsElement from './components/SetResultsElement'
+import SetResultsNumber from './components/SetResultsNumber'
 import TagsTable from './components/TagsTable'
-import LoadingElement from './components/LoadingElement'
-import ErrorElement from './components/ErrorElement'
+import LoadingIndicator from './components/LoadingIndicator'
+import ErrorMessage from './components/ErrorMessage'
 import ResultsPagination from './components/ResultsPagination'
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
 
@@ -33,6 +33,8 @@ function App() {
     }
   }, [isTotalResultsSuccess, totalResults, pagesize])
 
+  console.log('tag results', tagsResults)
+
   return (
     <Box sx={{ p: { xs: 1, sm: 4 } }}>
       <Typography variant='h3' component='h1' sx={{ marginBottom: '1rem', fontWeight: 'bold', color: indigo[600] }}>
@@ -40,11 +42,11 @@ function App() {
       </Typography>
       <Typography variant='subtitle2' sx={{ marginBottom: '.5rem' }}>Set number of results per page between 1 and 100.</Typography>
       <Stack direction='row' gap={6}>
-        <SetResultsElement setPagesize={setPagesize} setPage={setPage} />
-        {isFetching && <LoadingElement />}
+        <SetResultsNumber setPagesize={setPagesize} setPage={setPage} />
+        {isFetching && <LoadingIndicator />}
       </Stack>
       <TagsTable tags={tagsResults || []} setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
-      {(!isFetching && (isTagsError || isTotalResultsError)) && <ErrorElement />}
+      {(!isFetching && (isTagsError || isTotalResultsError)) && <ErrorMessage />}
       {isTotalResultsSuccess && <ResultsPagination totalPages={totalPages} setPage={setPage} page={page} />}
 
     </Box>

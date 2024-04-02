@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles'
 import { tableCellClasses } from '@mui/material/TableCell'
 import { Box, Stack, Table, TableBody, TableContainer, TableHead, TableRow, Paper, TableCell } from '@mui/material'
 import { indigo, grey } from '@mui/material/colors'
-import SortElement from './SortElement'
+import SortResults from './SortResults'
 import { Tag, TagArray } from '../types'
 
 function createData(name: string, count: number) {
@@ -48,13 +48,13 @@ const TagsTable = ({ tags, setOrder, setSort, setPage, order, sort }: Props) => 
                         <StyledTableCell>
                             <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between' alignItems='center'>
                                 <Box>Tag Name</Box>
-                                <SortElement sortBy='name' setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
+                                <SortResults sortBy='name' setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
                             </Stack>
                         </StyledTableCell>
                         <StyledTableCell>
                             <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent='space-between' alignItems='center'>
                                 <Box>Number of posts</Box>
-                                <SortElement sortBy='popular' setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
+                                <SortResults sortBy='popular' setOrder={setOrder} setSort={setSort} setPage={setPage} order={order} sort={sort} />
                             </Stack>
                         </StyledTableCell>
                     </TableRow>

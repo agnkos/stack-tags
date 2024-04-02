@@ -12,7 +12,7 @@ type Props = {
     setPage: (arg: number) => void
 }
 
-const SortElement = ({ sortBy, setSort, setOrder, setPage, order, sort }: Props) => {
+const SortResults = ({ sortBy, setSort, setOrder, setPage, order, sort }: Props) => {
 
     const sortData = (sortBy: string, order: string) => {
         setOrder(order)
@@ -27,4 +27,4 @@ const SortElement = ({ sortBy, setSort, setOrder, setPage, order, sort }: Props)
         </Box>
     )
 }
-export default SortElement
+export default SortResults

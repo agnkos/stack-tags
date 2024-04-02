@@ -1,7 +1,7 @@
 import { Stack, Typography } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 
-const LoadingElement = () => {
+const LoadingIndicator = () => {
     return (
         <Stack direction='row' alignItems='center' gap={2} marginBottom={2}>
             <Typography sx={{ color: 'success.main', fontWeight: 'bold' }}>Loading data...</Typography>
@@ -9,4 +9,4 @@ const LoadingElement = () => {
         </Stack>
     )
 }
-export default LoadingElement
+export default LoadingIndicator
