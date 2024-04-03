@@ -17,7 +17,7 @@ const StyledPagination = styled(Pagination)(({ theme }) => ({
     '& li .Mui-selected': {
         backgroundColor: indigo[300],
     },
-    '& .Mui-selected:hover': {
+    '& li .Mui-selected:hover': {
         backgroundColor: indigo[400],
     }
 }))
