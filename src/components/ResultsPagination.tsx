@@ -22,8 +22,6 @@ const StyledPagination = styled(Pagination)(({ theme }) => ({
     }
 }))
 
-// class="MuiButtonBase-root MuiPaginationItem-root MuiPaginationItem-sizeMedium MuiPaginationItem-text MuiPaginationItem-circular Mui-selected MuiPaginationItem-page css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root"
-
 type Props = {
     totalPages: number | undefined,
     setPage: (arg: number) => void,
